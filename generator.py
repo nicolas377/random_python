@@ -102,7 +102,7 @@ def add_waypoint(waypoint_name, id):
         lat = float(waypoints[waypoint_name][0][0])
         lon = float(waypoints[waypoint_name][0][1])
     else:
-        lat, lon = manual_coords(str(waypoint_name))
+         lat, lon = manual_coords(str(waypoint_name))
 
     wp['name'] = waypoint_name
     wp['lat'] = lat
@@ -114,9 +114,21 @@ def add_waypoint(waypoint_name, id):
     waypoint_list_wid[id] = wp
 
 def idselect():
-    # TEMP SOLUTION
+    dash = '-' * 75
+
+    print("Route so far")
+    print(dash)
+    print("{:<5}{:^9}{:^15}{:^15}{:^11}{:<8}".format("ID",
+                                                     "Name",
+                                                     "Latitude",
+                                                     "Longitude",
+                                                     "Altitude",
+                                                     "Notes"))
+
     id = input("enter id\n>")
-    return round(float(id))
+    id = round(float(id))
+    id = (f"{id}")
+    return id
 
 def options():
 
@@ -188,8 +200,6 @@ def main():
     for i in waypoint_list:
         add_waypoint(i, num)
         num += 1
-
-    options()
 
     print(json.dumps(waypoint_list_wid))
 
