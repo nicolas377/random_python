@@ -49,7 +49,7 @@ def dms2dec(dms_str):
 
 def manual_coords(name):
     print(f"Point {name} was not found in the database, please enter location manually")
-    full = input("Do you want to input a full DMS string?\nEnter y or n.\n> ")
+    full = input("Do you want to input a full DMS string?\nEnter y or n.\n>")
     if full.lower() == "n":
         while True:
             lat = input("Latitude:\n>")
@@ -71,7 +71,7 @@ def manual_coords(name):
                 print("Please enter a valid number")
     else:
         while True:
-            str = input("Full String\n> ")
+            str = input("Full String\n>")
             dms = str.split()
             lat = dms[0].replace("\\", "")
             lon = dms[1].replace("\\", "")
@@ -114,14 +114,22 @@ def add_waypoint(waypoint_name, id):
     waypoint_list_wid[id] = wp
 
 def idselect():
-    pass
+    # TEMP SOLUTION
+    id = input("enter id\n>")
+    return round(float(id))
 
-def update():
+def options():
+
+    # Altitudes
     altchoice = input("Would you like to update VNAV altitudes?\nEnter yes or no.\n>").lower()
     if altchoice.startswith("y"):
         id = idselect()
         current = waypoint_list_wid[id]
         alt = input("What altitude would you like the VNAV altitude to be?\n>")
+        current['alt'] = round(round(float(alt), -1))
+        print(current)
+
+    # Notes
 
 def intro():
     # departure
@@ -180,6 +188,8 @@ def main():
     for i in waypoint_list:
         add_waypoint(i, num)
         num += 1
+
+    options()
 
     print(json.dumps(waypoint_list_wid))
 
