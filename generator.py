@@ -103,10 +103,17 @@ def airport_coords(icao):
 def add_new_waypoint(waypoint_name, id):
     if waypoint_name.upper() in waypoints:
         coords = waypoints[waypoint_name][0]
-        lat = float(coords[0])
-        lon = float(coords[1])
+
+    if waypoint_name.upper() not in waypoints:
+        lat, lon = manual_coords(str(waypoint_name))
     else:
-         lat, lon = manual_coords(str(waypoint_name))
+        opt_len = (len(waypoints[waypoint]))
+        if opt_len == 1:
+            coords = waypoints[waypoint][0]
+        else:
+            manual_coords(str(waypoint_name))
+    lat = float(coords[0])
+    lon = float(coords[1])
 
     wp = {}
 
