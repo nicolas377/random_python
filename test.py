@@ -1,34 +1,14 @@
-import math, json, os, urllib.request, re
+import math, json, os
 
 os.system('cls')
 
-waypoint_list_wid = json.loads('{"1": {"name": "RIGNZ", "lat": 39.158963889, "lon": -77.306638889, "alt": null, "in_db": false, "notes": null}, "2": {"name": "JCOBY", "lat": 39.136269444, "lon": -77.172444444, "alt": null, "in_db": false, "notes": null}, "3": {"name": "GRIIM", "lat": 39.106994444, "lon": -76.989, "alt": null, "in_db": false, "notes": null}, "4": {"name": "SOOKI", "lat": 39.118383333, "lon": -76.522286111, "alt": null, "in_db": false, "notes": null}, "5": {"name": "SWANN", "lat": -32.012613889, "lon": 115.819727778, "alt": null, "in_db": false, "notes": null}, "6": {"name": "BROSS", "lat": 39.191222222, "lon": -75.880522222, "alt": null, "in_db": false, "notes": null}, "7": {"name": "STIKY", "lat": 39.279919444, "lon": -75.766319444, "alt": null, "in_db": false, "notes": null}, "8": {"name": "BRAND", "lat": 40.035077778, "lon": -74.735972222, "alt": null, "in_db": false, "notes": null}, "9": {"name": "LAURN", "lat": 40.551613889, "lon": -74.120463889, "alt": null, "in_db": false, "notes": null}, "10": {"name": "NEWES", "lat": 40.855613889, "lon": -73.444936111, "alt": null, "in_db": false, "notes": null}, "11": {"name": "FEXXX", "lat": 41.210983333, "lon": -72.9166, "alt": null, "in_db": false, "notes": null}, "12": {"name": "RUIZE", "lat": 41.479341667, "lon": -72.209427778, "alt": null, "in_db": false, "notes": null}, "13": {"name": "AWLIN", "lat": 41.556244444, "lon": -71.999158333, "alt": null, "in_db": false, "notes": null}, "14": {"name": "BANKI", "lat": 41.595663889, "lon": -71.867675, "alt": null, "in_db": false, "notes": null}, "15": {"name": "ROBUC", "lat": 41.678919444, "lon": -71.585116667, "alt": null, "in_db": false, "notes": null}, "16": {"name": "PROVI", "lat": 41.723738889, "lon": -71.431713889, "alt": null, "in_db": false, "notes": null}, "17": {"name": "JOODY", "lat": 41.785380556, "lon": -71.287563889, "alt": null, "in_db": false, "notes": null}, "18": {"name": "KRANN", "lat": 41.855191667, "lon": -71.123461111, "alt": null, "in_db": false, "notes": null}, "19": {"name": "KLEBB", "lat": 42.108411111, "lon": -70.616133333, "alt": null, "in_db": false, "notes": null}, "20": {"name": "HOKDU", "lat": 42.345536111, "lon": -70.565502778, "alt": null, "in_db": false, "notes": null}, "21": {"name": "AYBEE", "lat": 42.440558333, "lon": -70.527911111, "alt": null, "in_db": false, "notes": null}, "22": {"name": "KLANE", "lat": 42.414105556, "lon": -70.680580556, "alt": null, "in_db": false, "notes": null}, "23": {"name": "LONER", "lat": -24.713333333, "lon": 150.386666667, "alt": null, "in_db": false, "notes": null}, "24": {"name": "RIPIT", "lat": 42.379655556, "lon": -70.877513889, "alt": null, "in_db": false, "notes": null}}')
+route = ['KFLL', 'KMIA', '', [['RIGNZ', 39.158963889, -77.306638889, 39.158963889, None, False, None], ['JCOBY', 39.136269444, -77.172444444, 39.136269444, None, False, None], ['GRIIM', 39.106994444, -76.989, 39.106994444, None, False, None], ['SOOKI', 39.118383333, -76.522286111, 39.118383333, None, False, None], ['SWANN', -32.012613889, 115.819727778, -32.012613889, None, False, None], ['BROSS', 39.191222222, -75.880522222, 39.191222222, None, False, None], ['STIKY', 39.279919444, -75.766319444, 39.279919444, None, False, None], ['BRAND', 40.035077778, -74.735972222, 40.035077778, None, False, None], ['LAURN', 40.551613889, -74.120463889, 40.551613889, None, False, None], ['NEWES', 40.855613889, -73.444936111, 40.855613889, None, False, None], ['FEXXX', 41.210983333, -72.9166, 41.210983333, None, False, None], ['RUIZE', 41.479341667, -72.209427778, 41.479341667, None, False, None], ['AWLIN', 41.556244444, -71.999158333, 41.556244444, None, False, None], ['BANKI', 41.595663889, -71.867675, 41.595663889, None, False, None], ['ROBUC', 41.678919444, -71.585116667, 41.678919444, None, False, None], ['PROVI', 41.723738889, -71.431713889, 41.723738889, None, False, None], ['JOODY', 41.785380556, -71.287563889, 41.785380556, None, False, None], ['KRANN', 41.855191667, -71.123461111, 41.855191667, None, False, None], ['KLEBB', 42.108411111, -70.616133333, 42.108411111, None, False, None], ['HOKDU', 42.345536111, -70.565502778, 42.345536111, None, False, None], ['AYBEE', 42.440558333, -70.527911111, 42.440558333, None, False, None], ['KLANE', 42.414105556, -70.680580556, 42.414105556, None, False, None], ['LONER', -24.713333333, 150.386666667, -24.713333333, None, False, None], ['RIPIT', 42.379655556, -70.877513889, 42.379655556, None, False, None]]]
+lat_dep = 26.0725994
+lon_dep = -80.1527023
+lat_arr = 25.7931995
+lon_arr = -80.2906036
 
-def idselect():
-    dash = '-' * 75
+def saveroute(route):
+    pass
 
-    print("Route so far")
-    print(dash)
-    print("{:<5}{:^9}{:^15}{:^15}{:^11}{:<8}".format("ID",
-                                                     "Name",
-                                                     "Latitude",
-                                                     "Longitude",
-                                                     "Altitude",
-                                                     "Notes"))
-    print(dash)
-    for x in waypoint_list_wid:
-        list1 = waypoint_list_wid[x]
-        print("{:<5}{:^9}{:^15}{:^15}{:^11}{:<8}".format(x,
-                                                         list1['name'],
-                                                         list1['lat'],
-                                                         list1['lon'],
-                                                         str(list1['alt']),
-                                                         str(list1['notes'])))
-
-    id = input("enter id\n>")
-    id = round(float(id))
-    id = (f"{id}")
-    return id
-
-id = idselect()
-print(waypoint_list_wid[id])
+print(f'routes/{route[0]}{route[1]}/route.txt')
