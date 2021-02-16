@@ -99,10 +99,13 @@ def airport_coords(icao):
 
 def add_waypoint(waypoint_name, id):
     if waypoint_name.upper() in waypoints:
-        lat = float(waypoints[waypoint_name][0][0])
-        lon = float(waypoints[waypoint_name][0][1])
+        coords = waypoints[waypoint_name][0]
+        lat = float(coords[0])
+        lon = float(coords[1])
     else:
          lat, lon = manual_coords(str(waypoint_name))
+
+    wp = {}
 
     wp['name'] = waypoint_name
     wp['lat'] = lat
@@ -181,9 +184,7 @@ def main():
     global waypoints
     global route
     global waypoint_list_wid
-    global wp
 
-    wp = {}
     airports = datahandler(airportspathslist, "airports", "airports")
     waypoints = datahandler(navdatapathslist, "waypoints", "waypoints")
 
