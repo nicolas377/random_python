@@ -119,7 +119,6 @@ def add_waypoint(waypoint_name, id):
 def idselect():
     dash = '-' * 75
 
-    print("Route so far")
     print(dash)
     print("{:<5}{:^9}{:^15}{:^15}{:^11}{:<8}".format("ID",
                                                      "Name",
@@ -127,6 +126,15 @@ def idselect():
                                                      "Longitude",
                                                      "Altitude",
                                                      "Notes"))
+    print(dash)
+    for x in waypoint_list_wid:
+        list1 = waypoint_list_wid[x]
+        print("{:<5}{:^9}{:^15}{:^15}{:^11}{:<8}".format(x,
+                                                         list1['name'],
+                                                         list1['lat'],
+                                                         list1['lon'],
+                                                         str(list1['alt']),
+                                                         str(list1['notes'])))
 
     id = input("enter id\n>")
     id = round(float(id))
@@ -138,13 +146,32 @@ def options():
     # Altitudes
     altchoice = input("Would you like to update VNAV altitudes?\nEnter yes or no.\n>").lower()
     if altchoice.startswith("y"):
-        id = idselect()
-        current = waypoint_list_wid[id]
-        alt = input("What altitude would you like the VNAV altitude to be?\n>")
-        current['alt'] = round(round(float(alt), -1))
-        print(current)
+        while True:
+            id = idselect()
+            current = waypoint_list_wid[round(float(id))]
+            print(f'Name: {current["name"]}')
+            alt = input("What altitude would you like the VNAV altitude to be?\n>")
+            current['alt'] = round(round(float(alt), -1))
+            waypoint_list_wid[id] = current
+
+            cont = input("Would you like to move to another waypoint?\nEnter yes or no.\n>").lower()
+            if cont.startswith('n'):
+                break
 
     # Notes
+    noteschoice = input("Would you like to update notes?\nEnter yes or no.\n>").lower()
+    if noteschoice.startswith("y"):
+        while True:
+            id = idselect()
+            current = waypoint_list_wid[round(float(id))]
+            print(f'Name: {current["name"]}')
+            note = input("What altitude would you like the VNAV altitude to be?\n>")
+            current['notes'] = str(note)
+            waypoint_list_wid[id] = current
+
+            cont = input("Would you like to move to another waypoint?\nEnter yes or no.\n>").lower()
+            if cont.startswith('n'):
+                break
 
 def intro():
     # departure
@@ -201,6 +228,8 @@ def main():
     for i in waypoint_list:
         add_waypoint(i, num)
         num += 1
+
+    options()
 
     print(json.dumps(waypoint_list_wid))
 
