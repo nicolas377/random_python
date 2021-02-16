@@ -103,17 +103,19 @@ def airport_coords(icao):
 def add_new_waypoint(waypoint_name, id):
     if waypoint_name.upper() in waypoints:
         coords = waypoints[waypoint_name][0]
+        lat = float(coords[0])
+        lon = float(coords[1])
 
     if waypoint_name.upper() not in waypoints:
         lat, lon = manual_coords(str(waypoint_name))
     else:
-        opt_len = (len(waypoints[waypoint]))
+        opt_len = (len(waypoints[waypoint_name]))
         if opt_len == 1:
-            coords = waypoints[waypoint][0]
+            coords = waypoints[waypoint_name][0]
         else:
             manual_coords(str(waypoint_name))
-    lat = float(coords[0])
-    lon = float(coords[1])
+        lat = float(coords[0])
+        lon = float(coords[1])
 
     wp = {}
 
@@ -200,7 +202,7 @@ def options():
             id = idselect()
             current = waypoint_list_wid[round(float(id))]
             print(f'Name: {current["name"]}')
-            note = input("What altitude would you like the VNAV altitude to be?\n>")
+            note = input("What would you like the note to be?\n>")
             current['notes'] = str(note)
             waypoint_list_wid[id] = current
 
@@ -419,6 +421,6 @@ def main():
 
     finalize()
 
-    print("Route and KML saved")
+    print("\nRoute and KML saved")
 
 main()
