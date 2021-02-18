@@ -1,9 +1,41 @@
-import os, json, math
+import os, json, math, urllib.request
 import xml.etree.ElementTree as ET
 from operator import itemgetter
 from xml.dom import minidom
 from glob import glob
 
+airportspathslist = ["json/airports.json",
+                    "airports.json",
+                    os.path.expanduser("~")+"/Downloads/"+"airports.json"]
+
+if not os.path.exists("routes"):
+    os.mkdir("routes")
+    print("Make sure your routes are in the routes folder")
+
+def datahandler(pathslist, dataname):
+    for i in pathslist:
+        if os.path.exists(i):
+            with open(i, 'rt') as data_json:
+                data = json.loads(data_json.read())
+            break
+    else:
+        try:
+            with urllib.request.urlopen(f'https://raw.githubusercontent.com/nicolas377/hosting/master/fmc-gen/{dataname}.json') as response:
+                data_json = response.read()
+                data = json.loads(data_json)
+        except:
+            print("Sorry, the download failed. Check your internet connection and try again.")
+        print(f"Would you like to save the list of {dataname} to the current directory?")
+        print("Enter y to save, or leave blank to not save")
+        saveq = input()
+        if saveq.lower() == "y":
+            if os.path.exists("json") == False:
+                os.mkdir("json")
+            with open(pathslist[0], "w") as f:
+                f.write(str(json.dumps(data)))
+    return data
+
+airports = datahandler(airportspathslist, "airports")
 files = os.listdir('routes')
 txt_files = []
 kml_files = []
@@ -13,37 +45,6 @@ paths = str(glob('*/'))
 subdir_list_1 = paths.replace('//', '')
 subdir_list = subdir_list_1.replace('\\', '')
 path = []
-
-if os.path.exists("routes") == False:
-    os.mkdir("routes")
-    print("Make sure your routes are in the routes folder")
-
-for x in subdir_list:
-    if os.path.exists(x+"/airports.json"):
-        path.append(x+"/airports.json")
-
-if os.path.exists("json/airports.json"):
-    with open('json/airports.json', 'rt') as airports_json:
-        airports = json.loads(airports_json.read())
-elif os.path.exists("airports.json"):
-    with open('airports.json', 'rt') as airports_json:
-        airports = json.loads(airports_json.read())
-elif os.path.exists(os.path.expanduser("~")+"/Downloads/"+"airports.json"):
-    with open(os.path.expanduser("~")+"/Downloads/"+"airports.json", 'rt') as airports_json:
-        airports = json.loads(airports_json.read())
-else:
-    if any(path):
-        with open(path, 'rt') as airports_json:
-            airports = json.loads(airports_json.read())
-    else:
-        print("Would you like to save the list of airports to the current directory?")
-        saveq = input("Enter y to save, or leave blank to not save\n>")
-        if saveq == "y" or saveq == "Y":
-            if os.path.exists("json") == False:
-                os.mkdir("json")
-            with open("json/airports.json", "w") as f:
-                f.write(str(json.dumps(airports)))
-                f.close()
 
 # Converting functions
 
